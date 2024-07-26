@@ -25,11 +25,12 @@ function Navbar() {
         w="100%"
         top="0"
         positon="sticky"
-        h={['60px', '60px', '110px']}
+        h={['60px', '110px']}
         boxShadow="0px 2px 3px lightgray"
         pr={['15px', '30px']}
         bgColor="primaryGreen"
         zIndex="1"
+        mb="4rem"
       >
         <Link to="/">
           <Image
@@ -84,14 +85,16 @@ function Navbar() {
             />
             <MenuList>
               <MenuItem
-                icon={<BiUserCheck size="1.7rem" color="#584bac" />}
+                icon={<BiUserCheck size="1.7rem" color="#005856" />}
                 onClick={() => navigate('/login')}
+                color="primaryGreen"
               >
                 Log In
               </MenuItem>
               <MenuItem
-                icon={<BiUserPlus size="1.7rem" color="#584bac" />}
+                icon={<BiUserPlus size="1.7rem" color="#005856" />}
                 onClick={() => navigate('/signup')}
+                color="primaryGreen"
               >
                 Sign Up
               </MenuItem>
