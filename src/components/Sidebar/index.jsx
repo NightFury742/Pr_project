@@ -49,7 +49,7 @@ function Sidebar() {
             fontSize="1.3rem"
             bg="primaryGreen"
             _hover={{ bg: '#003A3C' }}
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/doctor')}
             justifyContent="left"
             gap="0.4rem"
           >
@@ -63,7 +63,7 @@ function Sidebar() {
             fontSize="1.3rem"
             bg="primaryGreen"
             _hover={{ bg: '#003A3C' }}
-            onClick={() => navigate('/Prescibe')}
+            onClick={() => navigate('/doctor/prescribe')}
             justifyContent="left"
             gap="0.4rem"
           >
@@ -76,7 +76,7 @@ function Sidebar() {
             fontSize="1.3rem"
             bg="primaryGreen"
             _hover={{ bg: '#003A3C' }}
-            onClick={() => navigate('/Prescriptions')}
+            onClick={() => navigate('/doctor/prescriptions')}
             justifyContent="left"
             gap="0.4rem"
           >
@@ -90,7 +90,7 @@ function Sidebar() {
             fontSize="1.3rem"
             bg="primaryGreen"
             _hover={{ bg: '#003A3C' }}
-            onClick={() => navigate('/logout')}
+            // onClick={() => navigate('/logout')}
             justifyContent="left"
             gap="0.4rem"
           >

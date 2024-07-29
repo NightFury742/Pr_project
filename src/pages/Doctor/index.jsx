@@ -1,13 +1,13 @@
 import DocNavbar from '../../components/DocNavbar';
 import Sidebar from '../../components/Sidebar';
-import Prescribe from '../../components/Prescribe';
+import { Outlet } from 'react-router-dom';
 
 function Doctor() {
   return (
     <>
       <Sidebar />
       <DocNavbar />
-      <Prescribe />
+      <Outlet />
     </>
   );
 }

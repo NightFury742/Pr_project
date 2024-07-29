@@ -4,6 +4,8 @@ import Doctor from './pages/Doctor';
 import { Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Preloader from './components/Preloader';
+import Prescribe from './components/Prescribe';
+import Prescriptions from './components/Prescriptions';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,10 +20,17 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={isLoading ? <Preloader /> : <Landing />} />
-        <Route
-          path="/Doctor"
-          element={isLoading ? <Preloader /> : <Doctor />}
-        />
+
+        <Route path="/doctor" element={isLoading ? <Preloader /> : <Doctor />}>
+          <Route
+            path="prescribe"
+            element={isLoading ? <Preloader /> : <Prescribe />}
+          />
+          <Route
+            path="prescriptions"
+            element={isLoading ? <Preloader /> : <Prescriptions />}
+          />
+        </Route>
       </Routes>
     </>
   );
