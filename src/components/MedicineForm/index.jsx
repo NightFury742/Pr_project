@@ -36,7 +36,6 @@ function MedicineForm({ index }) {
     };
     setMedicineData(updatedMedicineData);
     setMedicines(updatedMedicineData, index);
-    console.log(medicines);
   };
 
   const handleDosageChange = (val) => {
@@ -46,7 +45,6 @@ function MedicineForm({ index }) {
     };
     setMedicineData(updatedMedicineData);
     setMedicines(updatedMedicineData, index);
-    console.log(medicines);
   };
 
   const handleMethodChange = (val) => {
@@ -56,18 +54,20 @@ function MedicineForm({ index }) {
     };
     setMedicineData(updatedMedicineData);
     setMedicines(updatedMedicineData, index);
-    console.log(medicines);
   };
 
   const { medicineName, dosage, method } = medicineData;
 
   return (
-    <Flex>
+    <Flex gap="4rem" mb="3rem">
       <Flex direction="column">
         <Flex direction="column">
-          <Text>Medicine Name</Text>
+          <Text fontWeight="450" fontSize="1.2rem">
+            Medicine Name
+          </Text>
           <Select
             maxW="13rem"
+            bg="#edf1f7"
             placeholder="Select Medicine"
             name="medicineName"
             value={medicineName}
@@ -81,35 +81,55 @@ function MedicineForm({ index }) {
           </Select>
         </Flex>
 
-        <Flex>
+        <Flex gap="5rem" mt="1rem">
           <Flex direction="column">
-            <Text>Dosage</Text>
+            <Text fontWeight="450" fontSize="1.2rem">
+              Dosage
+            </Text>
             <RadioGroup
               name="dosage"
               value={dosage}
               onChange={handleDosageChange}
             >
-              <Stack spacing={4} direction="row">
-                <Radio value="OD">OD</Radio>
-                <Radio value="BD">BD</Radio>
-                <Radio value="TDS">TDS</Radio>
-                <Radio value="QID">QID</Radio>
+              <Stack spacing={2} direction="row">
+                <Radio spacing={0.5} value="OD ">
+                  OD
+                </Radio>
+                <Radio spacing={0.5} value="BD">
+                  BD
+                </Radio>
+                <Radio spacing={0.5} value="TDS">
+                  TDS
+                </Radio>
+                <Radio spacing={0.5} value="QID">
+                  QID
+                </Radio>
               </Stack>
             </RadioGroup>
           </Flex>
 
           <Flex direction="column">
-            <Text>Method</Text>
+            <Text fontWeight="450" fontSize="1.2rem">
+              Method
+            </Text>
             <RadioGroup
               name="method"
               value={method}
               onChange={handleMethodChange}
             >
-              <Stack spacing={4} direction="row">
-                <Radio value="OD">HS</Radio>
-                <Radio value="BD">SOS</Radio>
-                <Radio value="TDS">AC</Radio>
-                <Radio value="QID">PS</Radio>
+              <Stack spacing={2} direction="row">
+                <Radio spacing={0.5} value="OD">
+                  HS
+                </Radio>
+                <Radio spacing={0.5} value="BD">
+                  SOS
+                </Radio>
+                <Radio spacing={0.5} value="TDS">
+                  AC
+                </Radio>
+                <Radio spacing={0.5} value="QID">
+                  PS
+                </Radio>
               </Stack>
             </RadioGroup>
           </Flex>

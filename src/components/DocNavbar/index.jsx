@@ -19,7 +19,7 @@ function DocNavbar() {
         mb="4rem"
       >
         <Text
-          color="#005856"
+          color="primaryGreen"
           pl={['3rem']}
           fontSize={['1.1rem', '2.2rem']}
           fontWeight="600"
