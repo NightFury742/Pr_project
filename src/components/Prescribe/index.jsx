@@ -41,8 +41,12 @@ function Prescribe() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const isEmptyField = Object.values(formData).some((val) => val === ''); //add validation for medicines
-    if (isEmptyField) {
+    const isEmptyField = Object.values(formData).some((val) => val === '');
+    const isEmptyMedicine = medicines.some((val) =>
+      Object.values(val).some((val) => val === '')
+    );
+
+    if (isEmptyField || isEmptyMedicine) {
       toast({
         position: 'top',
         title: 'Please fill all fields',
