@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import Preloader from './components/Preloader';
 import Prescribe from './components/Prescribe';
 import Prescriptions from './components/Prescriptions';
+import PrintPreview from './components/PrintPreview';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +21,6 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={isLoading ? <Preloader /> : <Landing />} />
-
         <Route path="/doctor" element={isLoading ? <Preloader /> : <Doctor />}>
           <Route
             path="prescribe"
@@ -30,6 +30,8 @@ function App() {
             path="prescriptions"
             element={isLoading ? <Preloader /> : <Prescriptions />}
           />
+          <Route path="print" element={<PrintPreview />} />
+          {/* add dynamic route for diffrent prescription */}
         </Route>
       </Routes>
     </>

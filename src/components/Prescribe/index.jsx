@@ -11,15 +11,34 @@ import { useState } from 'react';
 import MedicineForm from '../MedicineForm';
 import { FiEdit } from 'react-icons/fi';
 import useMedicineStore from '../../Store/MedicineStore';
+import QRCode from 'qrcode';
+import { useNavigate } from 'react-router-dom';
 
 function Prescribe() {
-  const { medicines, addMedicine, removeMedicine } = useMedicineStore(
-    (state) => ({
-      medicines: state.medicines,
-      addMedicine: state.addMedicine,
-      removeMedicine: state.removeMedicine,
-    })
-  );
+  const {
+    medicines,
+    addMedicine,
+    removeMedicine,
+    setName,
+    setPatientName,
+    setGender,
+    setAge,
+    setComplaint,
+    setDiagnosis,
+    setQrData,
+  } = useMedicineStore((state) => ({
+    medicines: state.medicines,
+    addMedicine: state.addMedicine,
+    removeMedicine: state.removeMedicine,
+    QrData: state.QrData,
+    setName: state.setName,
+    setPatientName: state.setPatientName,
+    setGender: state.setGender,
+    setAge: state.setAge,
+    setComplaint: state.setComplaint,
+    setDiagnosis: state.setDiagnosis,
+    setQrData: state.setQrData,
+  }));
 
   const [formData, setFormData] = useState({
     name: '',
@@ -33,7 +52,18 @@ function Prescribe() {
 
   const { name, patientName, gender, age, complaint, diagnosis } = formData;
 
+  const navigate = useNavigate();
+
   const toast = useToast();
+
+  const generateQR = async (qrData) => {
+    try {
+      const result = await QRCode.toDataURL(qrData);
+      setQrData(result);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const onFormChange = (e) => {
     setFormData({
@@ -42,7 +72,7 @@ function Prescribe() {
     });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     const isEmptyField = Object.values(formData).some((val) => val === '');
     const isEmptyMedicine = medicines.some((val) =>
@@ -58,9 +88,23 @@ function Prescribe() {
         isClosable: true,
         variant: 'subtle',
       });
+      //   return;
     }
-    console.log(formData);
-    console.log(medicines);
+
+    setName(name);
+    setPatientName(patientName);
+    setGender(gender);
+    setAge(age);
+    setComplaint(complaint);
+    setDiagnosis(diagnosis);
+
+    const qrData = JSON.stringify({
+      ...formData,
+      medicines: medicines,
+    });
+
+    await generateQR(qrData);
+    navigate('/doctor/print');
   };
 
   const handleFormReset = () => {

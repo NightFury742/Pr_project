@@ -17,6 +17,7 @@ function DocNavbar() {
         pr={['15px', '30px']}
         zIndex="1"
         mb="4rem"
+        className="no-print"
       >
         <Text
           color="primaryGreen"
@@ -28,7 +29,7 @@ function DocNavbar() {
         </Text>
         <Spacer />
         {/* there is some confusion regarding this link tag */}
-        <Link to="/Doctor">
+        <Link to="/doctor">
           <Image src={DocDefault} alt="DocDefault" />
         </Link>
       </Flex>

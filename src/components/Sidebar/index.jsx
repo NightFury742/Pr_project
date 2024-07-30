@@ -26,6 +26,7 @@ function Sidebar() {
         bgColor="primaryGreen"
         zIndex="1"
         mb="4rem"
+        className="no-print"
       >
         <Flex justifyContent="center">
           <Link to="/">
