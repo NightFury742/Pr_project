@@ -9,12 +9,14 @@ import {
   Box,
   Center,
   Input,
+  Select,
 } from '@chakra-ui/react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import axios from 'axios';
 import useMedicineStore from '../../Store/MedicineStore';
 import Lottie from 'lottie-react';
 import docAnimation from '../../animations/docAnimation.json';
+import { medicalCouncils } from './medicalCouncils.jsx';
 
 export default function VerifyForm() {
   const [loading, setLoading] = useState(false);
@@ -198,17 +200,28 @@ export default function VerifyForm() {
                 <Text mb="0.5rem" fontSize={['1.1rem', '1.2rem']}>
                   State Medical Council
                 </Text>
-                <Box bg="#ffffff" borderRadius="0.4rem">
-                  <Input
-                    type="text"
-                    focusBorderColor="primaryGreen"
-                    bg="#ecedf6"
+                <Box
+                  bg="#ffffff"
+                  borderRadius="0.4rem"
+                  id="MedicalCouncil"
+                  name="MedicalCouncil"
+                  value={MedicalCouncil}
+                  onChange={onChange}
+                >
+                  <Select
+                    placeholder="Select option"
                     id="MedicalCouncil"
                     name="MedicalCouncil"
                     value={MedicalCouncil}
-                    placeholder="State Medical Council..."
-                    onChange={onChange}
-                  />
+                  >
+                    {medicalCouncils.map((val, index) => {
+                      return (
+                        <option key={index} value={val.name}>
+                          {val.name}
+                        </option>
+                      );
+                    })}
+                  </Select>
                 </Box>
               </Box>
 

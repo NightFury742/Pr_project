@@ -31,11 +31,11 @@ export default function SignupForm() {
   });
   const { UserName, password, confirmPassword } = signupData;
 
-  const { addAuth, valueSetter, d, regNo, yearOfReg, medicalCouncil } =
+  const { addAuth, valueSetter, doctorName, regNo, yearOfReg, medicalCouncil } =
     useMedicineStore((state) => ({
       addAuth: state.addAuth,
       valueSetter: state.valueSetter,
-      d: state.d,
+      doctorName: state.doctorName,
       regNo: state.regNo,
       yearOfReg: state.yearOfReg,
       medicalCouncil: state.medicalCouncil,
@@ -55,7 +55,7 @@ export default function SignupForm() {
     const response = await axios.post(
       'http://localhost:5000/doctor/register',
       {
-        d: d,
+        doctorName: doctorName,
         regNo: regNo,
         yearOfReg: yearOfReg,
         medicalCouncil: medicalCouncil,
