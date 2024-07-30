@@ -9,36 +9,33 @@ import {
   Stack,
   Text,
   useToast,
-  Spinner,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { BiHide, BiShow } from 'react-icons/bi';
-// import useMedicineStore from '../../Store/MedicineStore';
+import docAnimation from '../../animations/docAnimation.json';
+import Lottie from 'lottie-react';
+import useMedicineStore from '../../Store/MedicineStore';
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
+
   const [loginData, setLoginData] = useState({
     userName: '',
     password: '',
-    confirmPassword: '',
   });
 
-  // const { addAuth, setUserName, setUseruserName, setUserPhone } = useOrderStore(
-  //   (state) => ({
-  //     addAuth: state.addAuth,
-  //     setUserName: state.setUserName,
-  //     setUseruserName: state.setUseruserName,
-  //     setUserPhone: state.setUserPhone,
-  //   })
-  // );
+  const { userName, password } = loginData;
 
-  const { userName, password, confirmPassword } = loginData;
+  const { addAuth, valueSetter } = useMedicineStore((state) => ({
+    addAuth: state.addAuth,
+    valueSetter: state.valueSetter,
+  }));
 
-  // const cookies = new Cookies();
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -49,22 +46,21 @@ export default function LoginForm() {
     }));
   };
 
-  // async function makeLoginRequest() {
-  //   const response = await axios.post(
-  //     'https://laundrix-backend.onrender.com/api/user/login',
-  //     {
-  //       userName: userName,
-  //       password: password,
-  //     },
-  //     {
-  //       headers: {
-  //         'Content-Type': 'application/x-www-form-urlencoded',
-  //       },
-  //       withCredentials: true,
-  //     }
-  //   );
-  //   return response;
-  // }
+  async function makeLoginRequest() {
+    const response = await axios.post(
+      'http://localhost:5000/doctor/login',
+      {
+        userName: userName,
+        password: password,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
+    return response;
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -82,17 +78,9 @@ export default function LoginForm() {
 
     setLoading(true);
     try {
-      // let response = await makeLoginRequest();
-
-      // cookies.set('token', response.data.token);
-      // cookies.set('userName', decodeURIComponent(response.data.name));
-      // cookies.set('useruserName', decodeURIComponent(response.data.userName));
-      // cookies.set('userPhone', decodeURIComponent(response.data.phone));
-
-      // addAuth();
-      // setUserName(response.data.name);
-      // setUseruserName(response.data.userName);
-      // setUserPhone(response.data.phone);
+      const result = await makeLoginRequest();
+      addAuth();
+      valueSetter(result.doctorName, 'doctorName');
 
       navigate('/doctor');
       setLoading(false);
@@ -114,7 +102,13 @@ export default function LoginForm() {
 
   return (
     <>
-      <Center m={0} p={0}>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        height="60rem"
+        gap="15rem"
+      >
+        <Lottie animationData={docAnimation} />
         <Stack>
           <Text
             textAlign="center"
@@ -154,7 +148,7 @@ export default function LoginForm() {
               </Box>
               <Box mb={['1rem', '2rem']}>
                 <Text mb="0.5rem" fontSize={['1.1rem', '1.2rem']}>
-                  Password:{' '}
+                  Password
                 </Text>
                 <Box bg="#ffffff" borderRadius="0.4rem">
                   <InputGroup>
@@ -188,45 +182,11 @@ export default function LoginForm() {
                   </InputGroup>
                 </Box>
               </Box>
-              <Box mb={['1rem', '2rem']}>
-                <Text mb="0.5rem" fontSize={['1.1rem', '1.2rem']}>
-                  Confirm Password:{' '}
-                </Text>
-                <Box bg="#ffffff" borderRadius="0.4rem">
-                  <InputGroup>
-                    <Input
-                      type={showPassword ? 'text' : 'password'}
-                      focusBorderColor="#ce1567"
-                      bg="#ecedf6"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      value={confirmPassword}
-                      placeholder="Confirm Password..."
-                      onChange={onChange}
-                    />
-                    <InputRightElement
-                      onClick={() => {
-                        setShowPassword(!showPassword);
-                      }}
-                    >
-                      {showPassword ? (
-                        <BiHide
-                          style={{ width: '20px', height: '20px' }}
-                          color="#3d3d3d"
-                        />
-                      ) : (
-                        <BiShow
-                          style={{ width: '20px', height: '20px' }}
-                          color="#3d3d3d"
-                        />
-                      )}
-                    </InputRightElement>
-                  </InputGroup>
-                </Box>
-              </Box>
               <Center>
                 {loading ? (
-                  <Spinner />
+                  <Button isLoading loadingText="Logging in...">
+                    Login
+                  </Button>
                 ) : (
                   <Button
                     type="submit"
@@ -260,7 +220,7 @@ export default function LoginForm() {
             <Link to="/signup">Register</Link>
           </Text>
         </Stack>
-      </Center>
+      </Flex>
     </>
   );
 }

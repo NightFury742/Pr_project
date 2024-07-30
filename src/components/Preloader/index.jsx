@@ -1,5 +1,5 @@
 import Lottie from 'lottie-react';
-import preloaderAnimation from './preloaderAnimation.json';
+import preloaderAnimation from '../../animations/preloaderAnimation.json';
 import { Box } from '@chakra-ui/react';
 
 function Preloader() {

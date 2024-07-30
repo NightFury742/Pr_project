@@ -9,7 +9,7 @@ import Prescriptions from './components/Prescriptions';
 import PrintPreview from './components/PrintPreview';
 import Login from './pages/Login';
 import Verify from './pages/Verify';
-// import SignUp from './pages/SignUp'
+import SignUp from './pages/SignUp';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +38,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/verify" element={<Verify />} />
-        {/* <Route path='/singup' element ={<SignUp/>} /> */}
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
   );

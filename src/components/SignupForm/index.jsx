@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   useToast,
@@ -15,31 +15,32 @@ import {
 import { BiShow, BiHide } from 'react-icons/bi';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-import useOrderStore from '../../components/Store/OrderStore';
+import useMedicineStore from '../../Store/MedicineStore';
+import docAnimation from '../../animations/docAnimation.json';
+import Lottie from 'lottie-react';
 
 export default function SignupForm() {
   const [loading, setLoading] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
+
   const [signupData, setSignupData] = useState({
-    name: '',
-    phone: '',
-    email: '',
+    UserName: '',
     password: '',
     confirmPassword: '',
   });
-  const { name, phone, email, password, confirmPassword } = signupData;
-  const { addAuth, setUserEmail, setUserName, setUserPhone } = useOrderStore(
-    (state) => ({
-      addAuth: state.addAuth,
-      setUserName: state.setUserName,
-      setUserEmail: state.setUserEmail,
-      setUserPhone: state.setUserPhone,
-      userName: state.userName,
-    })
-  );
+  const { UserName, password, confirmPassword } = signupData;
 
-  const cookies = new Cookies();
+  const { addAuth, valueSetter, d, regNo, yearOfReg, medicalCouncil } =
+    useMedicineStore((state) => ({
+      addAuth: state.addAuth,
+      valueSetter: state.valueSetter,
+      d: state.d,
+      regNo: state.regNo,
+      yearOfReg: state.yearOfReg,
+      medicalCouncil: state.medicalCouncil,
+    }));
+
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -50,33 +51,28 @@ export default function SignupForm() {
     }));
   };
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-  }, [loading]);
-
   async function makeRegisterRequest() {
     const response = await axios.post(
-      'https://laundrix-backend.onrender.com/api/user/',
+      'http://localhost:5000/doctor/register',
       {
-        name: name,
-        email: email,
-        phone: phone,
+        d: d,
+        regNo: regNo,
+        yearOfReg: yearOfReg,
+        medicalCouncil: medicalCouncil,
+        userName: UserName,
         password: password,
       },
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        withCredentials: true,
       }
     );
     return response;
   }
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!(email || password || name || phone)) {
+    if (!(UserName || password || confirmPassword)) {
       toast({
         title: 'Incomplete Entries',
         description: 'Please enter all the fields',
@@ -89,29 +85,19 @@ export default function SignupForm() {
     }
     setLoading(true);
     try {
-      const response = await makeRegisterRequest();
-
-      cookies.set('token', response.data.token);
-      cookies.set('userName', response.data.name);
-      cookies.set('userEmail', response.data.email);
-      cookies.set('userPhone', response.data.phone);
+      await makeRegisterRequest();
 
       addAuth();
-      setUserName(response.data.name);
-      setUserEmail(response.data.email);
-      setUserPhone(response.data.phone);
+      valueSetter(UserName, 'userName');
 
-      navigate('/');
+      navigate('/doctor');
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      const parser = new DOMParser();
-      const htmlDoc = parser.parseFromString(error.response.data, 'text/html');
-      const errorMessage = htmlDoc.body.textContent.trim();
-
+      console.log(error);
       toast({
         title: 'Error',
-        description: errorMessage.slice(7, 27),
+        // description: 'Not registered',
         status: 'error',
         duration: 2000,
         isClosable: true,
@@ -122,7 +108,13 @@ export default function SignupForm() {
 
   return (
     <>
-      <Center m={0} p={0}>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        height="60rem"
+        gap="15rem"
+      >
+        <Lottie animationData={docAnimation} />
         <Stack>
           <Text
             textAlign="center"
@@ -134,7 +126,7 @@ export default function SignupForm() {
           </Text>
           <Flex
             direction="column"
-            border="2px solid #ce1567"
+            border="2px solid #005856"
             w={['20rem', '27rem']}
             px={['1rem', '2rem']}
             py={['1rem', '2rem']}
@@ -145,65 +137,32 @@ export default function SignupForm() {
               <Flex gap="2rem">
                 <Box mb={['1rem', '2rem']}>
                   <Text mb="0.5rem" fontSize={['1.1rem', '1.2rem']}>
-                    Name:{' '}
+                    Username:
                   </Text>
                   <Box bg="#ffffff" borderRadius="0.4rem">
                     <Input
                       type="text"
-                      focusBorderColor="#ce1567"
+                      focusBorderColor="primaryGreen"
                       bg="#ecedf6"
-                      id="name"
-                      name="name"
-                      value={name}
-                      placeholder="Name..."
-                      onChange={onChange}
-                    />
-                  </Box>
-                </Box>
-                <Box mb={['1rem', '2rem']}>
-                  <Text mb="0.5rem" fontSize={['1.1rem', '1.2rem']}>
-                    Phone:{' '}
-                  </Text>
-                  <Box bg="#ffffff" borderRadius="0.4rem">
-                    <Input
-                      type="text"
-                      focusBorderColor="#ce1567"
-                      bg="#ecedf6"
-                      id="phone"
-                      name="phone"
-                      value={phone}
-                      placeholder="Phone..."
+                      id="UserName"
+                      name="UserName"
+                      value={UserName}
+                      placeholder="Username..."
                       onChange={onChange}
                     />
                   </Box>
                 </Box>
               </Flex>
+
               <Box mb={['1rem', '2rem']}>
                 <Text mb="0.5rem" fontSize={['1.1rem', '1.2rem']}>
-                  Email:{' '}
-                </Text>
-                <Box bg="#ffffff" borderRadius="0.4rem">
-                  <Input
-                    type="email"
-                    focusBorderColor="#ce1567"
-                    bg="#ecedf6"
-                    id="email"
-                    name="email"
-                    value={email}
-                    placeholder="Email..."
-                    onChange={onChange}
-                  />
-                </Box>
-              </Box>
-              <Box mb={['1rem', '2rem']}>
-                <Text mb="0.5rem" fontSize={['1.1rem', '1.2rem']}>
-                  Password:{' '}
+                  Password:
                 </Text>
                 <Box bg="#ffffff" borderRadius="0.4rem">
                   <InputGroup>
                     <Input
                       type={showPassword ? 'text' : 'password'}
-                      focusBorderColor="#ce1567"
+                      focusBorderColor="primaryGreen"
                       bg="#ecedf6"
                       id="password"
                       name="password"
@@ -239,7 +198,7 @@ export default function SignupForm() {
                   <InputGroup>
                     <Input
                       type={showPassword ? 'text' : 'password'}
-                      focusBorderColor="#ce1567"
+                      focusBorderColor="primaryGreen"
                       bg="#ecedf6"
                       id="confirmPassword"
                       name="confirmPassword"
@@ -269,7 +228,7 @@ export default function SignupForm() {
               </Box>
               <Center>
                 {loading ? (
-                  <Button isLoading loadingText="Logging In...">
+                  <Button isLoading loadingText="Creating account...">
                     Create Account
                   </Button>
                 ) : (
@@ -279,10 +238,10 @@ export default function SignupForm() {
                     mt={['1rem', '']}
                     px="4rem"
                     fontSize="1rem"
-                    bg="#ce1567"
+                    bg="accent"
                     color="white"
                     _hover={{
-                      bg: '',
+                      bg: 'primaryGreen',
                     }}
                     rightIcon={
                       <AiOutlineArrowRight color="#ffffff" size="1.2rem" />
@@ -300,13 +259,13 @@ export default function SignupForm() {
           <Text
             textAlign="center"
             fontSize={['1.1rem', '1.2rem']}
-            color="#ce1567"
+            color="primaryGreen"
             fontWeight="600"
           >
             <Link to="/login">Log In Now</Link>
           </Text>
         </Stack>
-      </Center>
+      </Flex>
     </>
   );
 }

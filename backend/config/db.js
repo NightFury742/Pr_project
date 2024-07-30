@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const connectDb = async () => {
   try {
     const conn = await mongoose.connect(
-      'mongodb+srv://eshaan122:eshaan123@cluster0.vahaj8t.mongodb.net/'
+      'mongodb+srv://eshaan122:eshaan123@cluster0.vahaj8t.mongodb.net/APD'
     );
     console.log(` connected ${conn.connection.host}`);
   } catch (error) {

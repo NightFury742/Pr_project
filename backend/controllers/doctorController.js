@@ -59,6 +59,8 @@ const postVerifyData = async (regNo, yearOfReg, medicalCouncil) => {
     // return err;
   }
 };
+// ADD CHECK FOR AREADY VERIFEID DOCTORS, UPDATE IT IN DB
+//  add doctor name to lcoal storage afeter login/signup
 
 //  verfiy doctor
 // POST /doctor
@@ -91,7 +93,8 @@ const registerDoctor = asyncHandler(async (req, res) => {
   const { doctorName, regNo, yearOfReg, medicalCouncil, userName, password } =
     req.body;
 
-  // CHECK ALL FIELDS
+  console.log('Received data:', req.body);
+
   if (
     !doctorName ||
     !regNo ||
@@ -101,18 +104,16 @@ const registerDoctor = asyncHandler(async (req, res) => {
     !password
   ) {
     res.status(400);
-    res.status(400);
-    throw new Error('please add all fields!');
+    throw new Error('Please add all fields!');
   }
 
-  // CHECK IF ALREADY REGISTERED
   const prevUser = await Doctor.findOne({ userName });
   if (prevUser) {
     res.status(400);
-    throw new Error('user already exists!');
+    throw new Error('User already exists!');
   }
 
-  let doctor = await new Doctor({
+  let doctor = new Doctor({
     doctorName,
     userName,
     regNo,
@@ -121,18 +122,21 @@ const registerDoctor = asyncHandler(async (req, res) => {
     password,
   });
 
-  if (doctor) {
+  try {
+    const savedDoctor = await doctor.save();
+    console.log('Doctor saved:', savedDoctor);
+
     res.status(201).json({
-      _id: doctor._id,
-      doctorName: doctor.doctorName,
-      regNo: doctor.regNo,
-      yearOfReg: doctor.yearOfReg,
-      medicalCouncil: doctor.medicalCouncil,
-      userName: doctor.userName,
+      _id: savedDoctor._id,
+      doctorName: savedDoctor.doctorName,
+      regNo: savedDoctor.regNo,
+      yearOfReg: savedDoctor.yearOfReg,
+      medicalCouncil: savedDoctor.medicalCouncil,
+      userName: savedDoctor.userName,
     });
-  } else {
-    res.status(400);
-    throw new Error('invalid user data');
+  } catch (error) {
+    console.error('Error saving doctor:', error);
+    res.status(500).json({ message: 'Error saving doctor' });
   }
 });
 

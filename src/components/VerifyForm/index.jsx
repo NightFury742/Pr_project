@@ -13,6 +13,8 @@ import {
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import axios from 'axios';
 import useMedicineStore from '../../Store/MedicineStore';
+import Lottie from 'lottie-react';
+import docAnimation from '../../animations/docAnimation.json';
 
 export default function VerifyForm() {
   const [loading, setLoading] = useState(false);
@@ -105,7 +107,13 @@ export default function VerifyForm() {
 
   return (
     <>
-      <Center m={0} p={0}>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        height="60rem"
+        gap="15rem"
+      >
+        <Lottie animationData={docAnimation} />
         <Stack>
           <Text
             textAlign="center"
@@ -193,7 +201,7 @@ export default function VerifyForm() {
                 <Box bg="#ffffff" borderRadius="0.4rem">
                   <Input
                     type="text"
-                    focusBorderColor="#ce1567"
+                    focusBorderColor="primaryGreen"
                     bg="#ecedf6"
                     id="MedicalCouncil"
                     name="MedicalCouncil"
@@ -243,7 +251,7 @@ export default function VerifyForm() {
             <Link to="/login">Log In Now</Link>
           </Text>
         </Stack>
-      </Center>
+      </Flex>
     </>
   );
 }
