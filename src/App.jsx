@@ -7,6 +7,9 @@ import Preloader from './components/Preloader';
 import Prescribe from './components/Prescribe';
 import Prescriptions from './components/Prescriptions';
 import PrintPreview from './components/PrintPreview';
+import Login from './pages/Login';
+import Verify from './pages/Verify';
+// import SignUp from './pages/SignUp'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +36,9 @@ function App() {
           <Route path="print" element={<PrintPreview />} />
           {/* add dynamic route for diffrent prescription */}
         </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/verify" element={<Verify />} />
+        {/* <Route path='/singup' element ={<SignUp/>} /> */}
       </Routes>
     </>
   );

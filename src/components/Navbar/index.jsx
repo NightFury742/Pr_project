@@ -65,7 +65,7 @@ function Navbar() {
               px="2rem"
               ml="1.5rem"
               _hover={{ bg: '#5C9C89' }}
-              onClick={() => navigate('/signup')}
+              onClick={() => navigate('/verify')}
             >
               Sign Up
             </Button>
