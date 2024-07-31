@@ -89,6 +89,15 @@ export default function VerifyForm() {
 
       if (response.verified) {
         addVerification();
+        toast({
+          title: 'Verified!',
+          status: 'info',
+          duration: 2000,
+          isClosable: true,
+          position: 'top',
+        });
+
+        localStorage.setItem('isVerified', true);
         navigate('/signup');
       } else {
         throw new Error('Verification failed');

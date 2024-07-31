@@ -79,8 +79,19 @@ export default function LoginForm() {
     setLoading(true);
     try {
       const result = await makeLoginRequest();
+
       addAuth();
       valueSetter(result.doctorName, 'doctorName');
+      localStorage.setItem('userName', result.userName);
+
+      toast({
+        title: 'Logged in !',
+        description: `Welcome ${result.doctorName}`,
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+        position: 'top',
+      });
 
       navigate('/doctor');
       setLoading(false);
@@ -217,7 +228,7 @@ export default function LoginForm() {
             color="primaryGreen"
             fontWeight="600"
           >
-            <Link to="/signup">Register</Link>
+            <Link to="/verify">Register</Link>
           </Text>
         </Stack>
       </Flex>

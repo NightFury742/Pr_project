@@ -89,7 +89,15 @@ export default function SignupForm() {
 
       addAuth();
       valueSetter(UserName, 'userName');
-
+      localStorage.setItem('userName', UserName);
+      toast({
+        title: 'Signed up!',
+        description: `Welcome ${doctorName}`,
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+        position: 'top',
+      });
       navigate('/doctor');
       setLoading(false);
     } catch (error) {

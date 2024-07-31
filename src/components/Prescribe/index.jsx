@@ -88,7 +88,7 @@ function Prescribe() {
         isClosable: true,
         variant: 'subtle',
       });
-      //   return;
+      return;
     }
 
     setName(name);
