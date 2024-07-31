@@ -60,6 +60,7 @@ function Prescribe() {
     try {
       const result = await QRCode.toDataURL(qrData);
       setQrData(result);
+      console.log(result);
     } catch (err) {
       console.error(err);
     }
@@ -104,6 +105,7 @@ function Prescribe() {
     });
 
     await generateQR(qrData);
+    handleFormReset();
     navigate('/doctor/print');
   };
 

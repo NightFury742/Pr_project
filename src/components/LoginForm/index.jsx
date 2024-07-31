@@ -81,12 +81,13 @@ export default function LoginForm() {
       const result = await makeLoginRequest();
 
       addAuth();
-      valueSetter(result.doctorName, 'doctorName');
-      localStorage.setItem('userName', result.userName);
+      console.log(result);
+      valueSetter(result.data.doctorName, 'doctorName');
+      localStorage.setItem('userName', result.data.userName);
 
       toast({
         title: 'Logged in !',
-        description: `Welcome ${result.doctorName}`,
+        description: `Welcome Dr. ${result.data.doctorName}`,
         status: 'success',
         duration: 2000,
         isClosable: true,
@@ -165,7 +166,7 @@ export default function LoginForm() {
                   <InputGroup>
                     <Input
                       type={showPassword ? 'text' : 'password'}
-                      focusBorderColor="#ce1567"
+                      focusBorderColor="primaryGreen"
                       bg="#ecedf6"
                       id="password"
                       name="password"
