@@ -151,6 +151,7 @@ const loginDoctor = asyncHandler(async (req, res) => {
     res.status(200).json({
       _id: doctor._id,
       doctorName: doctor.doctorName,
+      userName: doctor.userName,
     });
   } else {
     res.status(400);
