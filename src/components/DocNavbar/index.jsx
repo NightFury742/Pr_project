@@ -25,7 +25,7 @@ function DocNavbar() {
           fontSize={['1.1rem', '2.2rem']}
           fontWeight="600"
         >
-          Welcome Dr. XYZ
+          Welcome Dr. Patra Anil Kumar
         </Text>
         <Spacer />
         {/* there is some confusion regarding this link tag */}
